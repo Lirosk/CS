@@ -649,7 +649,7 @@ namespace LR_6
                             Thread.Sleep(2000);
                             Console.WriteLine($"Now it {Pack.contingent.Name}!");
                             Thread.Sleep(2000);
-                            Console.WriteLine($"Praise the interfaces!\n");
+                            Console.WriteLine("Praise the interfaces!\n");
                             break;
                         }
                     default:
