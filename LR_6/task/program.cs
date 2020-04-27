@@ -4,7 +4,6 @@ using System.Threading;
 namespace LR_6
 {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ///
     interface IPackСontingent
     {
         bool AteRecently { get; set; }
@@ -510,9 +509,6 @@ namespace LR_6
             pack<smth> Pack = new pack<smth>(new smth("unknown"), new CarryAble(30));         
 
             char a;
-            string buffer;
-
-            //Console.WriteLine("Quantity of your pack is {0}\n", Pack.contingent.quantity);
 
             uint turn = 0;
 
@@ -561,9 +557,7 @@ namespace LR_6
                     "'n' to change contingent of pack\n\n"
                     ) ;
 
-
-                buffer = Console.ReadLine();
-                Char.TryParse(buffer, out a);
+                Char.TryParse(Console.ReadLine(), out a);
 
                 Console.Write("\n\n");
 
@@ -687,9 +681,7 @@ namespace LR_6
                     "'n' to change contingent of pack\n\n"
                     );
 
-
-                buffer = Console.ReadLine();
-                Char.TryParse(buffer, out a);
+                Char.TryParse(Console.ReadLine(), out a);
 
                 switch (a)
                 {
