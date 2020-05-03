@@ -169,6 +169,7 @@ namespace LR_6
                 }
                 else if (quantity == 1)
                 {
+                    quantity = 0;
                     Console.WriteLine("Your last drone's scanners detect the beep-bop-beep...\n");
                     Thread.Sleep(3000);
                     Console.WriteLine("Last drone just made its last beep-bop and turned off...\n");
@@ -362,6 +363,7 @@ namespace LR_6
                 }
                 else if (quantity == 1)
                 {
+                    quantity = 0;
                     Console.WriteLine("Your last carryable hears the voices...\n");
                     Thread.Sleep(3000);
                     Console.WriteLine("Last member just disappeared...\n");
