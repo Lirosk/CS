@@ -7,7 +7,7 @@ namespace LR_6
     {
         static void Main()
         {
-            Pack<Smth> Pack = new Pack<Smth>(new Smth("unknown"), new CarryAbles(30));         
+            Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new CarryAbles(30));         
 
             char a;
 
@@ -16,32 +16,32 @@ namespace LR_6
             while (turn < 16)
             {
                 Console.Clear();
-                if (Pack.Contingent.Quantity != 0)
+                if (pack.Contingent.Quantity != 0)
                 {
-                    if (Pack.Contingent.AteRecently)
+                    if (pack.Contingent.AteRecently)
                     {
-                        if (new Random().Next(0, 5) == 0 && Pack.Contingent.Name != "drones")
+                        if (new Random().Next(0, 5) == 0 && pack.Contingent.Name != "drones")
                         {
-                            Pack.Contingent.AteRecently = false;
+                            pack.Contingent.AteRecently = false;
                         }
                     }
-                    if (Pack.Contingent.RestRecently)
+                    if (pack.Contingent.RestRecently)
                     {
                         if (new Random().Next(0, 5) == 0)
                         {
-                            Pack.Contingent.RestRecently = false;
+                            pack.Contingent.RestRecently = false;
                         }
                     }
 
-                    Console.WriteLine($"{Pack.Contingent.Quantity} {Pack.Contingent.Name} in your pack\nPack's Contingent still going over the border with Staff...\n\n\n");
+                    Console.WriteLine($"{pack.Contingent.Quantity} {pack.Contingent.Name} in your pack\npack's Contingent still going over the border with Staff...\n\n\n");
 
-                    if (!Pack.Contingent.AteRecently && Pack.Contingent.Name != "drones")
+                    if (!pack.Contingent.AteRecently && pack.Contingent.Name != "drones")
                     {
-                        Pack.Contingent.PrintHungry();
+                        pack.Contingent.PrintHungry();
                     }
-                    if (!Pack.Contingent.RestRecently)
+                    if (!pack.Contingent.RestRecently)
                     {
-                        Pack.Contingent.PrintTired();
+                        pack.Contingent.PrintTired();
                     }
                 }
 
@@ -66,31 +66,31 @@ namespace LR_6
                 {
                     case ('h'):
                         {
-                            Pack.Contingent.IsHungry();
+                            pack.Contingent.IsHungry();
                             break;
                         }
                     case ('t'):
                         {
-                            Pack.Contingent.IsTired();
+                            pack.Contingent.IsTired();
                             break;
                         }
                     case ('k'):
                         {
-                            Pack.Contingent.Walk();
+                            pack.Contingent.Walk();
                             Console.Write("\n");
 
                             Thread.Sleep(2000);
-                            if (!Pack.Contingent.AteRecently && Pack.Contingent.Name != "drones")
+                            if (!pack.Contingent.AteRecently && pack.Contingent.Name != "drones")
                             {
-                                Pack.Contingent.PrintHungry();
+                                pack.Contingent.PrintHungry();
                                 Thread.Sleep(1000);
-                                Pack.Contingent.RandomSpirits();
+                                pack.Contingent.RandomSpirits();
                             }
-                            if (!Pack.Contingent.RestRecently)
+                            if (!pack.Contingent.RestRecently)
                             {
-                                Pack.Contingent.PrintTired();
+                                pack.Contingent.PrintTired();
                                 Thread.Sleep(1000);
-                                Pack.Contingent.RandomSpirits();
+                                pack.Contingent.RandomSpirits();
                             }
 
                             Thread.Sleep(2000);
@@ -100,49 +100,49 @@ namespace LR_6
                         }
                     case ('r'):
                         {
-                            Pack.Contingent.HaveARest();
-                            Pack.Contingent.RestRecently = true;
+                            pack.Contingent.HaveARest();
+                            pack.Contingent.RestRecently = true;
                             break;
                         }
                     case ('e'):
                         {
-                            Pack.Contingent.EatSomeone();
-                            Pack.Contingent.AteRecently = true;
+                            pack.Contingent.EatSomeone();
+                            pack.Contingent.AteRecently = true;
                             break;
                         }
                     case ('w'):
                         {
-                            Pack.Contingent.WhoIsPack();
+                            pack.Contingent.WhoIspack();
                             break;
                         }
                     case ('c'):
                         {
-                            Pack.CheckStaff();
+                            pack.CheckStaff();
                             break;
                         }
                     case ('s'):
                         {
-                            Console.WriteLine($"\"{Pack.Staff.Name}\" - you can hear..\n");
+                            Console.WriteLine($"\"{pack.Staff.Name}\" - you can hear..\n");
                             break;
                         }
                     case ('n'):
                         {
-                            Console.WriteLine($"All of {Pack.Contingent.Name} prey to God of interfaces for transforming...");
+                            Console.WriteLine($"All of {pack.Contingent.Name} prey to God of interfaces for transforming...");
 
-                            if (Pack.Contingent.Name == "CarryAbless")
+                            if (pack.Contingent.Name == "CarryAbless")
                             {                              
-                                Pack.Contingent = new Drones(Pack.Contingent.Quantity/2);                          
+                                pack.Contingent = new Drones(pack.Contingent.Quantity/2);                          
                             }
-                            else //if (Pack.Contingent.Name == "drones")
+                            else //if (pack.Contingent.Name == "drones")
                             {                                
-                                Pack.Contingent = new CarryAbles(Pack.Contingent.Quantity*2);
+                                pack.Contingent = new CarryAbles(pack.Contingent.Quantity*2);
                             }
                             
 
                             Thread.Sleep(2000);
                             Console.WriteLine("Transformation...");
                             Thread.Sleep(2000);
-                            Console.WriteLine($"Now it {Pack.Contingent.Name}!");
+                            Console.WriteLine($"Now it {pack.Contingent.Name}!");
                             Thread.Sleep(2000);
                             Console.WriteLine("Praise the interfaces!\n");
                             break;
@@ -150,21 +150,21 @@ namespace LR_6
                     default:
                         {
                             Console.WriteLine("Unknown decision...\n");
-                            Pack.Contingent.RandomSpirits();
+                            pack.Contingent.RandomSpirits();
                             break;
                         }
                 }
                 Thread.Sleep(5000);
 
-                if (Pack.Contingent.Quantity == 0)
+                if (pack.Contingent.Quantity == 0)
                 {
                     Console.WriteLine("\n\nGAME OVER...\n\n");
                     return;
                 }
             }
 
-            Pack.Contingent.Quantity = 0;
-            Pack.Contingent.Ending();
+            pack.Contingent.Quantity = 0;
+            pack.Contingent.Ending();
 
             while (true)
             {
@@ -188,28 +188,28 @@ namespace LR_6
                 {
                     case ('h'):
                         {
-                            Pack.Contingent.IsHungry();
+                            pack.Contingent.IsHungry();
                             break;
                         }
                     case ('t'):
                         {
-                            Pack.Contingent.IsTired();
+                            pack.Contingent.IsTired();
                             break;
                         }
                     case ('k'):
                         {
-                            Pack.Contingent.Walk();
+                            pack.Contingent.Walk();
 
                             break;
                         }
                     case ('r'):
                         {
-                            Pack.Contingent.HaveARest() ;
+                            pack.Contingent.HaveARest() ;
                             break;
                         }
                     case ('e'):
                         {
-                            Pack.Contingent.EatSomeone();
+                            pack.Contingent.EatSomeone();
                             break;
                         }
                     case ('w'):
@@ -219,7 +219,7 @@ namespace LR_6
                         }
                     case ('c'):
                         {
-                            Pack.CheckStaff();
+                            pack.CheckStaff();
                             break;
                         }
                     case ('s'):
@@ -235,7 +235,7 @@ namespace LR_6
                     default:
                         {
                             Console.WriteLine("Unknown decision...\n");
-                            //Pack.Contingent.RandomSpirits();
+                            //pack.Contingent.RandomSpirits();
                             break;
                         }
                 }
