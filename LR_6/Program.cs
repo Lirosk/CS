@@ -11,8 +11,6 @@ namespace LR_6
 
             char a;
 
-            //Console.WriteLine("Quantity of your pack is {0}\n", Pack.Contingent.Quantity);
-
             uint turn = 0;
 
             while (turn < 16)
