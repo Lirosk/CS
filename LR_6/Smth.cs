@@ -1,8 +1,8 @@
 ﻿namespace LR_6
 {
-    class smth
+    class Smth
     {
-        public smth(string name)
+        public Smth(string name)
         {
             this.Name = name;
         }
