@@ -138,6 +138,22 @@ namespace LR_7
         //////////////////////////////////////////////////////////////////////////////////
         #region Equals
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            RatNum num = obj as RatNum;
+
+            if (num == null)
+            {
+                return false;
+            }
+            
+            return ((Up == num.Up) && (Down == num.Down));
+        }
+
         public bool Equals(RatNum num)
         {
             return ((Up == num.Up) && (Down == num.Down));
@@ -155,23 +171,26 @@ namespace LR_7
             return (num.Down == 1 && num.Up == a) ;
         }
 
+        /*
         public bool Equals (int a)
         {
             reduce();
 
             return (Down == 1 && Up == a) ;
         }
-
+        */
 
         public static bool Equals(RatNum num, double a)
         {
             return ((double)num.Up / num.Down == a) ;
         }
 
+        /*
         public bool Equals(double a)
         {
             return ((double)Up / Down == a) ;
         }
+        */
 
         #endregion
 
@@ -300,7 +319,6 @@ namespace LR_7
 
             a.reduce();
             return a;
-
         }
 
         public static RatNum operator /(RatNum num1, double num2)
@@ -355,7 +373,7 @@ namespace LR_7
             }
         }
 
-        #endregion Simplifying fraction
+        #endregion
 
 
         //////////////////////////////////////////////////////////////////////////////////
@@ -502,7 +520,7 @@ namespace LR_7
             return Up / Down;
         }
 
-        #endregion
+        #endregion To double or int
 
 
         //////////////////////////////////////////////////////////////////////////////////
@@ -530,6 +548,6 @@ namespace LR_7
             return (double)num.Up / num.Down;
         }
 
-        #endregion
+        #endregion type conversion
     }
 }
