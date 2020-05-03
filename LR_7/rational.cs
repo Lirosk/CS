@@ -170,27 +170,23 @@ namespace LR_7
 
             return (num.Down == 1 && num.Up == a) ;
         }
-
-        /*
+        
         public bool Equals (int a)
         {
             reduce();
 
             return (Down == 1 && Up == a) ;
-        }
-        */
+        }        
 
         public static bool Equals(RatNum num, double a)
         {
             return ((double)num.Up / num.Down == a) ;
         }
-
-        /*
+        
         public bool Equals(double a)
         {
             return ((double)Up / Down == a) ;
-        }
-        */
+        }        
 
         #endregion
 
