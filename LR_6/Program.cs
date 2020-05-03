@@ -112,7 +112,7 @@ namespace LR_6
                         }
                     case ('w'):
                         {
-                            pack.Contingent.WhoIspack();
+                            pack.Contingent.WhoIsPack();
                             break;
                         }
                     case ('c'):
