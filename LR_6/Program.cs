@@ -7,7 +7,7 @@ namespace LR_6
     {
         static void Main()
         {
-            pack<smth> Pack = new pack<smth>(new smth("unknown"), new CarryAbles(30));         
+            pack<Smth> Pack = new pack<Smth>(new Smth("unknown"), new CarryAbles(30));         
 
             char a;
 
