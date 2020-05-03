@@ -3,7 +3,7 @@ using static LR_6.IPackContingent;
 
 namespace LR_6
 {
-    class pack<T>
+    class Pack<T>
     {
         public IPackСontingent Contingent { get; set; }
         public T Staff { get; set; }
@@ -20,7 +20,7 @@ namespace LR_6
             }
         }
 
-        public pack(T Staff, IPackСontingent Contingent = null)
+        public Pack(T Staff, IPackСontingent Contingent = null)
         {
             this.Staff = Staff;
             this.Contingent = Contingent;
