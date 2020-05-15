@@ -5,37 +5,32 @@ namespace LR_7
     //rational number
     class RatNum: IEquatable<RatNum>
     {
-        public int Up { get; private set; }
-
+        private int up;
         private int down;
-        public int Down
-        {
-            get
-            {
-                return down;
-            }
-            private set
-            {
-                if (value > 0)
-                {
-                    down = value;
-                }
-                else if (value == 0)
-                {
-                    throw new Exception("No zero in denominator.");
-                }
-                else
-                {
-                    down = -value;
-                    Up *= -1;
-                }
-            }
-        }
 
-        public RatNum(int Up = 1, int Down = 1)
+        public int Up { get { return up; } }
+        public int Down { get { return down; } }
+
+        public RatNum(int up = 1, int down = 1)
         {
-            this.Up = Up;
-            this.Down = Down;
+            if (down > 0)
+            {
+                this.down = down;
+            }
+            else if (down == 0)
+            {
+                throw new Exception("No zero in denominator.");
+            }
+            else
+            {
+                this.down = -down;
+                this.up *= -1;
+            }
+
+            this.up = up;
+            this.down = down;
+
+            this.reduce();
         }
 
 
@@ -45,12 +40,12 @@ namespace LR_7
 
         public static bool operator <(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down < num2.Up * num1.Down);
+            return (num1.up * num2.down < num2.up * num1.down);
         }
 
         public static bool operator <(RatNum num1, double num2)
         {
-            return ((double)num1.Up < num2 * num1.Down);
+            return ((double)num1.up < num2 * num1.down);
         }
 
         #endregion operator <
@@ -61,12 +56,12 @@ namespace LR_7
 
         public static bool operator <=(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down <= num2.Up * num1.Down);
+            return (num1.up * num2.down <= num2.up * num1.down);
         }
 
         public static bool operator <=(RatNum num1, double num2)
         {
-            return ((double)num1.Up <= num2 * num1.Down);
+            return ((double)num1.up <= num2 * num1.down);
         }
 
         #endregion operator <=
@@ -77,12 +72,12 @@ namespace LR_7
 
         public static bool operator >(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down > num2.Up * num1.Down);
+            return (num1.up * num2.down > num2.up * num1.down);
         }
 
         public static bool operator >(RatNum num1, double num2)
         {
-            return ((double)num1.Up > num2 * num1.Down);
+            return ((double)num1.up > num2 * num1.down);
         }
 
         #endregion operator >
@@ -93,12 +88,12 @@ namespace LR_7
 
         public static bool operator >=(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down >= num2.Up * num1.Down);
+            return (num1.up * num2.down >= num2.up * num1.down);
         }
 
         public static bool operator >=(RatNum num1, double num2)
         {
-            return ((double)num1.Up >= num2 * num1.Down);
+            return ((double)num1.up >= num2 * num1.down);
         }
 
         #endregion operator >=
@@ -109,12 +104,12 @@ namespace LR_7
 
         public static bool operator ==(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down == num2.Up * num1.Down);
+            return (num1.up * num2.down == num2.up * num1.down);
         }
 
         public static bool operator ==(RatNum num1, double num2)
         {
-            return ((double)num1.Up == num2 * num1.Down);
+            return ((double)num1.up == num2 * num1.down);
         }
 
         #endregion operator ==
@@ -125,12 +120,12 @@ namespace LR_7
 
         public static bool operator !=(RatNum num1, RatNum num2)
         {
-            return (num1.Up * num2.Down != num2.Up * num1.Down);
+            return (num1.up * num2.down != num2.up * num1.down);
         }
 
         public static bool operator !=(RatNum num1, double num2)
         {
-            return ((double)num1.Up != num2 * num1.Down);
+            return ((double)num1.up != num2 * num1.down);
         }
 
         #endregion operator !=
@@ -151,42 +146,46 @@ namespace LR_7
                 return false;
             }
             
-            return ((Up == num.Up) && (Down == num.Down));
+            return ((up == num.up) && (down == num.down));
         }
 
         public bool Equals(RatNum num)
         {
-            return ((Up == num.Up) && (Down == num.Down));
+            return ((up == num.up) && (down == num.down));
         }
 
         public static bool Equals(RatNum num1, RatNum num2)
         {
-            return ((num1.Up == num2.Up) && (num1.Down == num2.Down)) ;
+            return ((num1.up == num2.up) && (num1.down == num2.down)) ;
         }
 
         public static bool Equals (RatNum num, int a)
         {
             num.reduce();
 
-            return (num.Down == 1 && num.Up == a) ;
+            return (num.down == 1 && num.up == a) ;
         }
+
         
         public bool Equals (int a)
         {
             reduce();
 
-            return (Down == 1 && Up == a) ;
-        }        
+            return (down == 1 && up == a) ;
+        }
+        
 
         public static bool Equals(RatNum num, double a)
         {
-            return ((double)num.Up / num.Down == a) ;
+            return ((double)num.up / num.down == a) ;
         }
+
         
         public bool Equals(double a)
         {
-            return ((double)Up / Down == a) ;
-        }        
+            return ((double)up / down == a) ;
+        }
+        
 
         #endregion
 
@@ -196,28 +195,25 @@ namespace LR_7
 
         public static RatNum operator +(RatNum num1, RatNum num2)
         {
-            var a = new RatNum(num1.Up * num2.Down + num2.Up * num1.Down, num1.Down * num2.Down);
-            a.reduce();
+            var a = new RatNum(num1.up * num2.down + num2.up * num1.down, num1.down * num2.down);
             return a;
         }
 
         public static RatNum operator +(RatNum num1, int num2)
         {
-            var a = new RatNum(num1.Up + num2 * num1.Down, num1.Down);
-            a.reduce();
+            var a = new RatNum(num1.up + num2 * num1.down, num1.down);
             return a;
         }
 
         public static RatNum operator +(RatNum num1, double num2)
         {
-            var a = new RatNum((int)(10000 * (num1.Up + num2 * num1.Down)), num1.Down * 10000);
-            a.reduce();
+            var a = new RatNum((int)(10000 * (num1.up + num2 * num1.down)), num1.down * 10000);
             return a;
         }
 
         public static RatNum operator ++(RatNum num1)
         {
-            return new RatNum(num1.Up + num1.Down, num1.Down);
+            return new RatNum(num1.up + num1.down, num1.down);
         }
 
         #endregion sum
@@ -228,33 +224,30 @@ namespace LR_7
 
         public static RatNum operator -(RatNum num1, RatNum num2)
         {
-            var a = new RatNum(num1.Up * num2.Down - num2.Up * num1.Down, num1.Down * num2.Down);
-            a.reduce();
+            var a = new RatNum(num1.up * num2.down - num2.up * num1.down, num1.down * num2.down);
             return a;
         }
 
         public static RatNum operator -(RatNum num1, int num2)
         {
-            var a = new RatNum((num1.Up - num2 * num1.Down), num1.Down);
-            a.reduce();
+            var a = new RatNum((num1.up - num2 * num1.down), num1.down);
             return a;
         }
 
         public static RatNum operator -(RatNum num1, double num2)
         {
-            var a = new RatNum((int)(10000 * (num1.Up - num2 * num1.Down)), num1.Down * 10000);
-            a.reduce();
+            var a = new RatNum((int)(10000 * (num1.up - num2 * num1.down)), num1.down * 10000);
             return a;
         }
 
         public static RatNum operator --(RatNum num1)
         {
-            return new RatNum(num1.Up - num1.Down, num1.Down);
+            return new RatNum(num1.up - num1.down, num1.down);
         }
 
         public static RatNum operator -(RatNum num1)
         {
-            return new RatNum(-num1.Up, num1.Down);
+            return new RatNum(-num1.up, num1.down);
         }
 
         #endregion difference
@@ -265,22 +258,19 @@ namespace LR_7
 
         public static RatNum operator *(RatNum num1, RatNum num2)
         {
-            var a = new RatNum(num1.Up * num2.Up, num1.Down * num2.Down);
-            a.reduce();
+            var a = new RatNum(num1.up * num2.up, num1.down * num2.down);
             return a;
         }
 
         public static RatNum operator *(RatNum num1, int num2)
         {
-            var a = new RatNum(num2 * num1.Up, num1.Down);
-            a.reduce();
+            var a = new RatNum(num2 * num1.up, num1.down);
             return a;
         }
 
         public static RatNum operator *(RatNum num1, double num2)
         {
-            var a = new RatNum((int)(num2 * 10000 * num1.Up), num1.Down*10000);
-            a.reduce();
+            var a = new RatNum((int)(num2 * 10000 * num1.up), num1.down*10000);
             return a;
         }
 
@@ -293,8 +283,7 @@ namespace LR_7
 
         public static RatNum operator /(RatNum num1, RatNum num2)
         {
-            var a = new RatNum(num1.Up * num2.Down, num1.Down * num2.Up);
-            a.reduce();
+            var a = new RatNum(num1.up * num2.down, num1.down * num2.up);
             return a;
         }        
         public static RatNum operator /(RatNum num1, int num2)
@@ -302,19 +291,19 @@ namespace LR_7
             RatNum a = new RatNum();
             if (num2 > 0)
             {
-                a = new RatNum(num1.Up, (num1.Down * num2));
+                a = new RatNum(num1.up, (num1.down * num2));
             }
             else if (num2 < 0)
             {
-                a = new RatNum(-num1.Up, (num1.Down * num2));
+                a = new RatNum(-num1.up, (num1.down * num2));
             }
             else
             {
                 throw new Exception("No divide by zero.");
             }
 
-            a.reduce();
             return a;
+
         }
 
         public static RatNum operator /(RatNum num1, double num2)
@@ -322,18 +311,17 @@ namespace LR_7
             RatNum a = new RatNum();
             if (num2 > 0)
             {
-                a = new RatNum(num1.Up * 10000, (int)(10000 * (num1.Down * num2)));
+                a = new RatNum(num1.up * 10000, (int)(10000 * (num1.down * num2)));
             }
             else if (num2 < 0)
             {
-                a = new RatNum(-num1.Up * 10000, (int)(10000 * (num1.Down * num2)));
+                a = new RatNum(-num1.up * 10000, (int)(10000 * (num1.down * num2)));
             }
             else
             {
                 throw new Exception("No division by zero.");
             }
 
-            a.reduce();
             return a;
         }
 
@@ -345,26 +333,26 @@ namespace LR_7
 
         public void reduce() 
         {
-            int a = Down;
-            if (Math.Abs(Up) > Down)
+            int a = down;
+            if (Math.Abs(up) > down)
             {
-                a = Up;
+                a = up;
             }
 
             a = (int)Math.Sqrt(a);
 
-            while ((Up % 2 == 0) && (Down % 2 == 0))
+            while ((up % 2 == 0) && (down % 2 == 0))
             {
-                Up /= 2;
-                Down /= 2;
+                up /= 2;
+                down /= 2;
             }
 
             for (int i = 3; i < a; i += 2)
             {
-                while ((Up % i == 0) && (Down % i == 0))
+                while ((up % i == 0) && (down % i == 0))
                 {
-                    Up /= i;
-                    Down /= i;
+                    up /= i;
+                    down /= i;
                 }
             }
         }
@@ -377,33 +365,33 @@ namespace LR_7
 
         public override string ToString()
         {
-            return $"{(double)Up / (double)Down}";
+            return $"{(double)up / (double)down}";
         }
 
         public string NormToString()
         {
-            if (Up == 0)
+            if (up == 0)
             {
                 return "0";
             }
-            if (Down == 1)
+            if (down == 1)
             {
-                return $"{Up}";
+                return $"{up}";
             }
-            return $"{Up}/{Down}";
+            return $"{up}/{down}";
         }
 
         public string DecToString()
         {
-            if (Up == 0)
+            if (up == 0)
             {
                 return "0";
             }
-            if (Down == 1)
+            if (down == 1)
             {
-                return $"{Up}";
+                return $"{up}";
             }
-            return ((double)Up / (double)Down).ToString();
+            return ((double)up / (double)down).ToString();
         }
 
         #endregion ToString
@@ -414,26 +402,26 @@ namespace LR_7
 
         public static RatNum ToRatNum(string str)
         {
-            int Up = 0, Down = 1;
+            int up = 0, down = 1;
             bool minus = false;
 
             for (int i = 0; i < str.Length; i++)
             {
                 if (str[i] >= '0' && str[i] <= '9')
                 {
-                    Up *= 10;
-                    Up += str[i] - 48;
+                    up *= 10;
+                    up += str[i] - 48;
                 }
                 else if (str[i] == '/') // '/'
                 {
-                    Down = 0;
+                    down = 0;
 
                     for (int j = i + 1; j < str.Length; j++)
                     {
                         if (str[j] >= '0' && str[j] <= '9')
                         {
-                            Down *= 10;
-                            Down += str[j] - '0';
+                            down *= 10;
+                            down += str[j] - '0';
                         }
                     }
 
@@ -441,13 +429,13 @@ namespace LR_7
                 }
                 else if (str[i] == '.' || str[i] == ',') // '.' ','
                 {
-                    Down = 1;
+                    down = 1;
 
                     for (int j = i + 1; j < str.Length; j++)
                     {
-                        Up *= 10;
-                        Up += str[j] - 48;
-                        Down *= 10;
+                        up *= 10;
+                        up += str[j] - 48;
+                        down *= 10;
                     }
 
                     break;
@@ -458,8 +446,7 @@ namespace LR_7
                 }
             }
 
-            RatNum a = new RatNum(Up * ((minus) ? (-1) : (1)), Down);
-            a.reduce();
+            RatNum a = new RatNum(up * ((minus) ? (-1) : (1)), down);
             return a;
         }
         public static RatNum ToRatNum(int num2)
@@ -470,7 +457,6 @@ namespace LR_7
         public static RatNum ToRatNum(double num2)
         {
             var a = new RatNum((int)(num2 * 10000), (int)Math.Pow(10, (int)Math.Log10((int)num2) + 4));
-            a.reduce();
             return a;
         }
 
@@ -482,41 +468,41 @@ namespace LR_7
 
         public static double ToDouble(RatNum num)
         {
-            if (num.Down == 1)
+            if (num.down == 1)
             {
-                return num.Up;
+                return num.up;
             }
-            return (double)num.Up / num.Down;
+            return (double)num.up / num.down;
         }
 
         public double ToDouble()
         {
-            if (Down == 1)
+            if (down == 1)
             {
-                return Up;
+                return up;
             }
-            return (double)Up / Down;
+            return (double)up / down;
         }
 
         public static int ToInt(RatNum num)
         {
-            if (num.Down == 1)
+            if (num.down == 1)
             {
-                return num.Up;
+                return num.up;
             }
-            return num.Up / num.Down;
+            return num.up / num.down;
         }
 
         public int ToInt()
         {
-            if (Down == 1)
+            if (down == 1)
             {
-                return Up;
+                return up;
             }
-            return Up / Down;
+            return up / down;
         }
 
-        #endregion To double or int
+        #endregion
 
 
         //////////////////////////////////////////////////////////////////////////////////
@@ -530,20 +516,19 @@ namespace LR_7
         public static implicit operator RatNum(double x)
         {
             var a = new RatNum((int)(x * 10000), 10000);
-            a.reduce();
             return a;
         }
 
         public static explicit operator int(RatNum num)
         {
-           return num.Up / num.Down;
+           return num.up / num.down;
         }
 
         public static explicit operator double(RatNum num)
         {
-            return (double)num.Up / num.Down;
+            return (double)num.up / num.down;
         }
 
-        #endregion type conversion
+        #endregion
     }
 }
