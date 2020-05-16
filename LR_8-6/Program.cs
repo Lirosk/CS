@@ -26,7 +26,7 @@ namespace LR_8
 
 
                 char a;
-
+                ushort sombuf;
                 uint turn = 0;
 
                 while (turn < 16)
@@ -96,17 +96,29 @@ namespace LR_8
                         {
                             pack.Contingent.PrintHungry();
                             Thread.Sleep(1000);
+
+                            sombuf = pack.Contingent.Quantity;
+
                             pack.Contingent.RandomSpirits();
 
-                            reduceQuantity?.Invoke(pack.Contingent, 2);
+                            if (sombuf - pack.Contingent.Quantity > 0)
+                            {
+                                reduceQuantity?.Invoke(pack.Contingent, (ushort)(sombuf - pack.Contingent.Quantity));
+                            }
                         }
                         if (!pack.Contingent.RestRecently)
                         {
                             pack.Contingent.PrintTired();
                             Thread.Sleep(1000);
+
+                            sombuf = pack.Contingent.Quantity;
+
                             pack.Contingent.RandomSpirits();
 
-                            reduceQuantity?.Invoke(pack.Contingent, 2);
+                            if (sombuf - pack.Contingent.Quantity > 0)
+                            {
+                                reduceQuantity?.Invoke(pack.Contingent, (ushort)(sombuf - pack.Contingent.Quantity));
+                            }
                         }
 
                         Thread.Sleep(2000);
@@ -146,8 +158,6 @@ namespace LR_8
                             {
                                 reduceQuantity = (Drones, n) =>
                                 {
-                                    pack.Contingent.ReduceQuantity(n);
-
                                     Console.Write($"From lambda event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };
                             }
@@ -158,9 +168,7 @@ namespace LR_8
 
                             {
                                 reduceQuantity = delegate (object sender, ushort n)
-                                {
-                                    pack.Contingent.ReduceQuantity(n);
-
+                                { 
                                     Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };                               
                             }
