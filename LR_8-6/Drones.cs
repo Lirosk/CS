@@ -5,23 +5,17 @@ namespace LR_8
 {
     class Drones : IPackСontingent //it could be the drones...
     {
-        /*
-        public delegate void ReduceQuantityDelegate(object sender, ushort arg);
-        event IPackСontingent.ReduceQuantityDelegate reduceQuantity;
-
-        event IPackСontingent.ReduceQuantityDelegate IPackСontingent.ReduceQuantityEvent
+        public void ReduceQuantity(ushort n)
         {
-            add
+            if (n >= Quantity)
             {
-                reduceQuantity += value;
+                Quantity = 0;
             }
-
-            remove
+            else
             {
-                reduceQuantity = null;
+                Quantity -= n;
             }
         }
-        */
 
         public void PrintHungry()
         {
