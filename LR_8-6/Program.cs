@@ -18,7 +18,7 @@ namespace LR_8
                 {
                     reduceQuantity = delegate (object sender, ushort n)
                     {
-                        pack.Contingent.Quantity -= n;
+                        pack.Contingent.ReduceQuantity(n);
 
                         Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
                     };
@@ -146,7 +146,7 @@ namespace LR_8
                             {
                                 reduceQuantity = (Drones, n) =>
                                 {
-                                    pack.Contingent.Quantity -= n;
+                                    pack.Contingent.ReduceQuantity(n);
 
                                     Console.Write($"From lambda event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };
@@ -159,7 +159,7 @@ namespace LR_8
                             {
                                 reduceQuantity = delegate (object sender, ushort n)
                                 {
-                                    pack.Contingent.Quantity -= n;
+                                    pack.Contingent.ReduceQuantity(n);
 
                                     Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };                               
