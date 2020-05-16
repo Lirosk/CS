@@ -5,18 +5,6 @@ namespace LR_8
 {
     class Carryables : IPackСontingent //people maybe
     {
-        public void ReduceQuantity(ushort n)
-        {
-            if (n >= Quantity)
-            {
-                Quantity = 0;
-            }
-            else
-            {
-                Quantity -= n;
-            }
-        }
-
         public void PrintHungry()
         {
             Console.WriteLine("Someone hungry..\n");
