@@ -4,19 +4,7 @@ using System.Threading;
 namespace LR_8
 {
     class Drones : IPackСontingent //it could be the drones...
-    {
-        public void ReduceQuantity(ushort n)
-        {
-            if (n >= Quantity)
-            {
-                Quantity = 0;
-            }
-            else
-            {
-                Quantity -= n;
-            }
-        }
-
+    { 
         public void PrintHungry()
         {
 
