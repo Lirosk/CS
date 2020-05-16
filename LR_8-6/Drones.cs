@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace LR_8
 {
     class Drones : IPackСontingent //it could be the drones...
     {
+        /*
         public delegate void ReduceQuantityDelegate(object sender, ushort arg);
         event IPackСontingent.ReduceQuantityDelegate reduceQuantity;
 
@@ -20,6 +21,7 @@ namespace LR_8
                 reduceQuantity = null;
             }
         }
+        */
 
         public void PrintHungry()
         {
@@ -52,18 +54,7 @@ namespace LR_8
             this.Name = "drones";
 
             AteRecently = false;
-            RestRecently = false;
-
-            IPackСontingent drones = (IPackСontingent)this;
-
-            drones.ReduceQuantityEvent -= null;
-
-            drones.ReduceQuantityEvent += (Drones, n) =>
-            {
-                Quantity -= n;
-
-                Console.Write("\nFrom lambda event-handler: \"Quantity has reduced!\"\n");
-            };
+            RestRecently = false;            
         }
 
 
@@ -97,17 +88,17 @@ namespace LR_8
 
                     if (a >= Quantity)
                     {
-                        //Quantity = 0;
+                        Quantity = 0;
                         Console.WriteLine("All of their batteries are low.\nThey fell to the ground...\n");
 
-                        reduceQuantity?.Invoke(this, Quantity);
+                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
-                        //Quantity -= a;
+                        Quantity -= a;
                         Console.WriteLine($"There are {a} with low battery.\nRemains {Quantity - a} who can continue.");
 
-                        reduceQuantity?.Invoke(this, a);
+                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -135,7 +126,8 @@ namespace LR_8
                 {
                     Console.WriteLine($"The remaining {Quantity} drones just have made beep-bop and then turned off...\n");
 
-                    reduceQuantity?.Invoke(this, Quantity);
+                    //reduceQuantity?.Invoke(this, Quantity);
+                    Quantity = 0;
                 }
                 else if (Quantity == 1)
                 {
@@ -143,8 +135,8 @@ namespace LR_8
                     Thread.Sleep(3000);
                     Console.WriteLine("Last drone just made its last beep-bop and turned off...\n");
 
-                    //Quantity = 0;
-                    reduceQuantity?.Invoke(this, 1);
+                    Quantity = 0;
+                    //reduceQuantity?.Invoke(this, 1);
 
                     Thread.Sleep(3000);
                 }
@@ -152,8 +144,8 @@ namespace LR_8
                 {
                     Console.WriteLine($"{a} drones from your pack just disappeared. Scanners can't detect them...\nRemain {Quantity - a} drones.\n");
 
-                    //Quantity -= a;
-                    reduceQuantity?.Invoke(this, a);
+                    Quantity -= a;
+                    //reduceQuantity?.Invoke(this, a);
                     Thread.Sleep(3000);
                 }
             }
