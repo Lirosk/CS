@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 
 namespace LR_8
 {
     class Pack<T>
     {
         public IPackСontingent Contingent { get; set; }
-        public T Staff { get; set; }
+        public T Staff { get; set; }        
 
-        public delegate void CheckTheStaffDelegate(ushort q);
-        public CheckTheStaffDelegate checkTheStaffDelegate = delegate (ushort q)
+        public void CheckStaff()
         {
-            if (q == 0)
+            if (Contingent.Quantity == 0)
             {
                 Console.WriteLine("Staff has been stolen...\n");
             }
@@ -18,11 +17,6 @@ namespace LR_8
             {
                 Console.WriteLine("Staff still here.");
             }
-        };
-
-        public void CheckStaff(CheckTheStaffDelegate checkTheStaffDelegate)
-        {
-            checkTheStaffDelegate?.Invoke(Contingent.Quantity);
         }
 
         public Pack(T Staff, IPackСontingent Contingent = null)
