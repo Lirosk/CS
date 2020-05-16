@@ -5,13 +5,25 @@ namespace LR_8
 { 
     class Program
     {
+        public delegate void ReduceQuantityDelegate(object sender, ushort arg);
+        static event ReduceQuantityDelegate reduceQuantity;
+
         static void Main()
-        {
+        {           
             try
             {
                 Random r = new Random();
 
-                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new CarryAbles(30));
+                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new Carryables(30));
+                {
+                    reduceQuantity = delegate (object sender, ushort n)
+                    {
+                        pack.Contingent.Quantity -= n;
+
+                        Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
+                    };
+                }
+
 
                 char a;
 
@@ -85,12 +97,16 @@ namespace LR_8
                             pack.Contingent.PrintHungry();
                             Thread.Sleep(1000);
                             pack.Contingent.RandomSpirits();
+
+                            reduceQuantity?.Invoke(pack.Contingent, 2);
                         }
                         if (!pack.Contingent.RestRecently)
                         {
                             pack.Contingent.PrintTired();
                             Thread.Sleep(1000);
                             pack.Contingent.RandomSpirits();
+
+                            reduceQuantity?.Invoke(pack.Contingent, 2);
                         }
 
                         Thread.Sleep(2000);
@@ -113,7 +129,7 @@ namespace LR_8
                     }
                     else if (a == 'c')
                     {
-                        pack.CheckStaff(pack.checkTheStaffDelegate);
+                        pack.CheckStaff();
                     }
                     else if (a == 's')
                     {
@@ -123,13 +139,31 @@ namespace LR_8
                     {
                         Console.WriteLine($"All of {pack.Contingent.Name} prey to God of interfaces for transforming...");
 
-                        if (pack.Contingent.Name == "CarryAbless")
+                        if (pack.Contingent.Name == "Carryables")
                         {
                             pack.Contingent = new Drones((ushort)(pack.Contingent.Quantity / 2));
+
+                            {
+                                reduceQuantity = (Drones, n) =>
+                                {
+                                    pack.Contingent.Quantity -= n;
+
+                                    Console.Write($"From lambda event-handler: \"Quantity has reduced (by {n})!\"\n");
+                                };
+                            }
                         }
                         else //if (pack.Contingent.Name == "drones")
                         {
-                            pack.Contingent = new CarryAbles((ushort)(pack.Contingent.Quantity * 2));
+                            pack.Contingent = new Carryables((ushort)(pack.Contingent.Quantity * 2));
+
+                            {
+                                reduceQuantity = delegate (object sender, ushort n)
+                                {
+                                    pack.Contingent.Quantity -= n;
+
+                                    Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
+                                };                               
+                            }
                         }
 
                         Thread.Sleep(2000);
@@ -174,8 +208,7 @@ namespace LR_8
                         "'s' - Staff?\n" +
                         "'c' to check the Staff\n" +
                         "'w' - who in my pack?\n" +
-                        "'n' to change Contingent of pack\n\n"
-                        , pack.Contingent.Quantity);
+                        "'n' to change Contingent of pack\n\n");
 
                     Char.TryParse(Console.ReadLine(), out a);
 
@@ -216,7 +249,7 @@ namespace LR_8
                                 }
                             case ('c'):
                                 {
-                                    pack.CheckStaff(pack.checkTheStaffDelegate);
+                                    pack.CheckStaff();
                                     break;
                                 }
                             case ('s'):
