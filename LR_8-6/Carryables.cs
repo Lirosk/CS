@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Threading;
 
 namespace LR_8
 {
-    class CarryAbles : IPackСontingent //people maybe
+    class Carryables : IPackСontingent //people maybe
     {
+        /*
         public delegate void ReduceQuantityDelegate(object sender, ushort arg);
         event IPackСontingent.ReduceQuantityDelegate reduceQuantity;
 
@@ -20,6 +21,7 @@ namespace LR_8
                 reduceQuantity = null;
             }
         }
+        */
 
         public void PrintHungry()
         {
@@ -70,15 +72,15 @@ namespace LR_8
                     {
                         Console.WriteLine("All of them are hungry.\nEveryone sees the light at the end of the tunnel...\n");
 
-                        //Quantity = 0; 
-                        reduceQuantity?.Invoke(this, Quantity);
+                        Quantity = 0; 
+                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
                         Console.WriteLine($"There are {a} dying of hunger.\nRemains {Quantity - a} who can continue.");
 
-                        //Quantity -= a;
-                        reduceQuantity?.Invoke(this, a);
+                        Quantity -= a;
+                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -110,15 +112,15 @@ namespace LR_8
                     {
                         Console.WriteLine("All of them are tired.\nThey fell to the ground...\n");
 
-                        //Quantity = 0;
-                        reduceQuantity?.Invoke(this, Quantity);
+                        Quantity = 0;
+                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
                         Console.WriteLine($"There are {a} dying of tiredness.\nRemains {Quantity - a} who can continue.");
 
-                        //Quantity -= a;
-                        reduceQuantity?.Invoke(this, a);
+                        Quantity -= a;
+                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -129,25 +131,16 @@ namespace LR_8
             }
         }
 
-        public CarryAbles(ushort value = 0)
+        public Carryables(ushort value = 0)
         {
 
             Quantity = value;
 
-            this.Name = "CarryAbless";
+            this.Name = "Carryables";
             AteRecently = false;
             RestRecently = false;
 
-            IPackСontingent CarryAbless = (IPackСontingent)this;
-
-            CarryAbless.ReduceQuantityEvent -= null;
-
-            CarryAbless.ReduceQuantityEvent += delegate (object sender, ushort n)
-            {
-                Quantity -= n;
-
-                Console.Write("\nFrom anonymous delegate event-handler: \"Quantity has reduced!\"\n");
-            };
+            
         }
 
         public void RandomSpirits()
@@ -165,8 +158,8 @@ namespace LR_8
 
                     Console.WriteLine($"The remaining {Quantity} CarryAbless just disappeared...\n");
 
-                    //Quantity = 0;
-                    reduceQuantity?.Invoke(this, Quantity);
+                    Quantity = 0;
+                    //reduceQuantity?.Invoke(this, Quantity);
                 }
                 else if (Quantity == 1)
                 {
@@ -174,8 +167,8 @@ namespace LR_8
                     Thread.Sleep(3000);
                     Console.WriteLine("Last member just disappeared...\n");
 
-                    //Quantity = 0
-                    reduceQuantity?.Invoke(this, 1);
+                    Quantity = 0;
+                    //reduceQuantity?.Invoke(this, 1);
 
                     Thread.Sleep(3000);
                 }
@@ -183,8 +176,8 @@ namespace LR_8
                 {
                     Console.WriteLine($"{a} from your pack just disappeared. Nobody saw them...\nRemain {Quantity - a} CarryAbless.\n");
 
-                    //Quantity -= a;
-                    reduceQuantity?.Invoke(this, a);
+                    Quantity -= a;
+                    //reduceQuantity?.Invoke(this, a);
                 }
             }
         }
@@ -232,8 +225,8 @@ namespace LR_8
                 Thread.Sleep(3000);
                 Console.WriteLine("Last member just died...\n");
 
-                //Quantity = 0;
-                reduceQuantity?.Invoke(this, 1);
+                Quantity = 0;
+                //reduceQuantity?.Invoke(this, 1);
 
             }
             else if (a >= Quantity)
@@ -249,15 +242,15 @@ namespace LR_8
                 Console.WriteLine("Their bodies will remain here for a while...");
                 Thread.Sleep(3000);
 
-                //Quantity = 0;
-                reduceQuantity?.Invoke(this, Quantity);
+                Quantity = 0;
+                //reduceQuantity?.Invoke(this, Quantity);
             }
             else
             {
                 Console.WriteLine("Your pack decided to eat {0} comrades...\n{1} members left", a, Quantity - a);
 
-                //Quantity -= a;
-                reduceQuantity?.Invoke(this, a);
+                Quantity -= a;
+                //reduceQuantity?.Invoke(this, a);
             }
         }
 
