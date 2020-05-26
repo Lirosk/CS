@@ -5,18 +5,15 @@ namespace LR_8
 { 
     class Program
     {
-        public delegate void ReducedQuantityDelegate(object sender, ushort arg);
-        static event ReducedQuantityDelegate ReducedQuantity;
-
         static void Main()
         {           
             try
             {
                 Random r = new Random();
 
-                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new Carryables(30));
+                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new CarryAbles(30));
                 {
-                    ReducedQuantity = delegate (object sender, ushort n)
+                    pack.Contingent.ReducedQuantityEvent += delegate (object sender, int n)
                     { 
                         Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
                     };
@@ -24,7 +21,6 @@ namespace LR_8
 
 
                 char a;
-                ushort sombuf;
                 uint turn = 0;
 
                 while (turn < 16)
@@ -95,28 +91,14 @@ namespace LR_8
                             pack.Contingent.PrintHungry();
                             Thread.Sleep(1000);
 
-                            sombuf = pack.Contingent.Quantity;
-
                             pack.Contingent.RandomSpirits();
-
-                            if (sombuf - pack.Contingent.Quantity > 0)
-                            {
-                                ReducedQuantity?.Invoke(pack.Contingent, (ushort)(sombuf - pack.Contingent.Quantity));
-                            }
                         }
                         if (!pack.Contingent.RestRecently)
                         {
                             pack.Contingent.PrintTired();
                             Thread.Sleep(1000);
 
-                            sombuf = pack.Contingent.Quantity;
-
                             pack.Contingent.RandomSpirits();
-
-                            if (sombuf - pack.Contingent.Quantity > 0)
-                            {
-                                ReducedQuantity?.Invoke(pack.Contingent, (ushort)(sombuf - pack.Contingent.Quantity));
-                            }
                         }
 
                         Thread.Sleep(2000);
@@ -152,9 +134,9 @@ namespace LR_8
                         if (pack.Contingent.Name == "Carryables")
                         {
                             pack.Contingent = new Drones((ushort)(pack.Contingent.Quantity / 2));
-
                             {
-                                ReducedQuantity = (Drones, n) =>
+                                pack.Contingent.ReducedQuantityEvent -= null;
+                                pack.Contingent.ReducedQuantityEvent += (Drones, n) =>
                                 {
                                     Console.Write($"From lambda event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };
@@ -162,10 +144,10 @@ namespace LR_8
                         }
                         else //if (pack.Contingent.Name == "drones")
                         {
-                            pack.Contingent = new Carryables((ushort)(pack.Contingent.Quantity * 2));
-
+                            pack.Contingent = new CarryAbles((ushort)(pack.Contingent.Quantity * 2));
                             {
-                                ReducedQuantity = delegate (object sender, ushort n)
+                                pack.Contingent.ReducedQuantityEvent -= null;
+                                pack.Contingent.ReducedQuantityEvent += delegate (object sender, int n)
                                 { 
                                     Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
                                 };                               
