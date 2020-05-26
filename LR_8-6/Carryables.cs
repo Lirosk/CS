@@ -5,6 +5,21 @@ namespace LR_8
 {
     class Carryables : IPackСontingent //people maybe
     {
+        public event IPackСontingent.ReducedQuantityDelegate ReducedQuantityEvent;
+
+        event IPackСontingent.ReducedQuantityDelegate IPackСontingent.ReducedQuantityEvent
+        {
+            add
+            {
+                ReducedQuantityEvent += value;
+            }
+
+            remove
+            {
+                ReducedQuantityEvent = null;
+            }
+        }
+
         public void PrintHungry()
         {
             Console.WriteLine("Someone hungry..\n");
@@ -24,25 +39,43 @@ namespace LR_8
             }
             else
             {
-                //Console.WriteLine("No one to go");
                 throw new Exception("No one to go");
             }
         }
 
-        public ushort Quantity { get; set; }
+        private ushort quantity;
+
+        public ushort Quantity
+        {
+            get
+            {                
+                return quantity;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    ReducedQuantityEvent?.Invoke(this, quantity - value);
+                    quantity = value;
+                }
+                else
+                {
+                    ReducedQuantityEvent?.Invoke(this, quantity);
+                    quantity = 0;
+                }
+            }
+        }       
 
         public string Name { get; set; }
-
         public void IsHungry()
         {
             if (Quantity == 0)
             {
-                //Console.WriteLine("There are no CarryAbless to be hungry...\n");
                 throw new Exception("There are no CarryAbless to be hungry...\n");
             }
             else if (AteRecently)
             {
-                Console.WriteLine("There are no dreams about food now.");//("Everybody feels fine");
+                Console.WriteLine("There are no dreams about food now.");
             }
             else
             {
@@ -55,14 +88,12 @@ namespace LR_8
                         Console.WriteLine("All of them are hungry.\nEveryone sees the light at the end of the tunnel...\n");
 
                         Quantity = 0; 
-                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
                         Console.WriteLine($"There are {a} dying of hunger.\nRemains {Quantity - a} who can continue.");
 
                         Quantity -= a;
-                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -77,12 +108,11 @@ namespace LR_8
         {
             if (Quantity == 0)
             {
-                //Console.WriteLine("There are no CarryAbless to be tired...");
                 throw new Exception("There are no CarryAbless to be tired...");
             }
             else if (RestRecently)
             {
-                Console.WriteLine("There are no dreams about having a rest.");//("Everybody feels fine");
+                Console.WriteLine("There are no dreams about having a rest.");
             }
             else
             {
@@ -95,14 +125,12 @@ namespace LR_8
                         Console.WriteLine("All of them are tired.\nThey fell to the ground...\n");
 
                         Quantity = 0;
-                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
                         Console.WriteLine($"There are {a} dying of tiredness.\nRemains {Quantity - a} who can continue.");
 
                         Quantity -= a;
-                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -141,7 +169,6 @@ namespace LR_8
                     Console.WriteLine($"The remaining {Quantity} CarryAbless just disappeared...\n");
 
                     Quantity = 0;
-                    //reduceQuantity?.Invoke(this, Quantity);
                 }
                 else if (Quantity == 1)
                 {
@@ -150,7 +177,6 @@ namespace LR_8
                     Console.WriteLine("Last member just disappeared...\n");
 
                     Quantity = 0;
-                    //reduceQuantity?.Invoke(this, 1);
 
                     Thread.Sleep(3000);
                 }
@@ -159,7 +185,6 @@ namespace LR_8
                     Console.WriteLine($"{a} from your pack just disappeared. Nobody saw them...\nRemain {Quantity - a} CarryAbless.\n");
 
                     Quantity -= a;
-                    //reduceQuantity?.Invoke(this, a);
                 }
             }
         }
@@ -168,12 +193,11 @@ namespace LR_8
         {
             if (Quantity == 0)
             {
-                //Console.WriteLine("There is no one to rest...\n");
                 throw new Exception("There is no one to rest...\n");
             }
             else if (RestRecently)
             {
-                Console.WriteLine("There are no dreams about food having a rest.");//("Everybody feels fine");
+                Console.WriteLine("There are no dreams about food having a rest.");
                 return;
             }
 
@@ -189,12 +213,11 @@ namespace LR_8
         {
             if (Quantity == 0)
             {
-                //Console.WriteLine("There is no one to eat...\n");
                 throw new Exception("There is no one to eat...\n");
             }
             else if (AteRecently)
             {
-                Console.WriteLine("There are no dreams about food now.");//("Everybody feels fine");
+                Console.WriteLine("There are no dreams about food now.");
                 return;
             }
             byte a = (byte)new Random().Next(1, 4);
@@ -208,7 +231,6 @@ namespace LR_8
                 Console.WriteLine("Last member just died...\n");
 
                 Quantity = 0;
-                //reduceQuantity?.Invoke(this, 1);
 
             }
             else if (a >= Quantity)
@@ -225,14 +247,12 @@ namespace LR_8
                 Thread.Sleep(3000);
 
                 Quantity = 0;
-                //reduceQuantity?.Invoke(this, Quantity);
             }
             else
             {
                 Console.WriteLine("Your pack decided to eat {0} comrades...\n{1} members left", a, Quantity - a);
 
                 Quantity -= a;
-                //reduceQuantity?.Invoke(this, a);
             }
         }
 
