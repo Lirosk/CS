@@ -1,8 +1,9 @@
 namespace LR_8
 {
     interface IPackСontingent
-    {        
-        delegate void ReducedQuantityDelegate(object sender, int a);
+    {
+        
+        delegate void ReducedQuantityDelegate(object sender, ushort a, ushort b);
         event ReducedQuantityDelegate ReducedQuantityEvent;
 
         bool AteRecently { get; set; }
