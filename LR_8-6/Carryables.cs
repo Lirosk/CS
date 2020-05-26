@@ -53,18 +53,22 @@ namespace LR_8
             }
             set
             {
+                ushort exq = quantity;
+
                 if (value > 0)
                 {
-                    ReducedQuantityEvent?.Invoke(this, quantity - value);
                     quantity = value;
                 }
                 else
                 {
-                    ReducedQuantityEvent?.Invoke(this, quantity);
+
                     quantity = 0;
                 }
+
+                ReducedQuantityEvent?.Invoke(this, exq, quantity);
             }
-        }       
+        }
+        
 
         public string Name { get; set; }
         public void IsHungry()
