@@ -1,12 +1,9 @@
 namespace LR_8
 {
     interface IPackСontingent
-    {
-        /*
-        delegate void ReduceQuantityDelegate(object sender, ushort a);
-        event ReduceQuantityDelegate ReduceQuantityEvent;
-        */
-
+    {        
+        delegate void ReducedQuantityDelegate(object sender, int a);
+        event ReducedQuantityDelegate ReducedQuantityEvent;
 
         bool AteRecently { get; set; }
 
@@ -23,6 +20,7 @@ namespace LR_8
         string Name { get; set; }
 
         void IsHungry();
+        
         void IsTired();
 
         void RandomSpirits();
@@ -30,6 +28,7 @@ namespace LR_8
         void HaveARest();
 
         void EatSomeone();
+        
         void WhoIsPack();
 
         void Ending();
