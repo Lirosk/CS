@@ -4,7 +4,22 @@ using System.Threading;
 namespace LR_8
 {
     class Drones : IPackСontingent //it could be the drones...
-    { 
+    {
+        public event IPackСontingent.ReducedQuantityDelegate ReducedQuantityEvent;
+
+        event IPackСontingent.ReducedQuantityDelegate IPackСontingent.ReducedQuantityEvent
+        {
+            add
+            {
+                ReducedQuantityEvent += value;
+            }
+
+            remove
+            {
+                ReducedQuantityEvent = null;
+            }
+        }
+
         public void PrintHungry()
         {
 
@@ -39,9 +54,28 @@ namespace LR_8
             RestRecently = false;            
         }
 
+        private ushort quantity;
 
-
-        public ushort Quantity { get; set; }
+        public ushort Quantity
+        {
+            get
+            {
+                return quantity;
+            }
+            set
+            {
+                if (value > 0)
+                {
+                    ReducedQuantityEvent?.Invoke(this, quantity - value);
+                    quantity = value;
+                }
+                else
+                {
+                    ReducedQuantityEvent?.Invoke(this, quantity);
+                    quantity = 0;
+                }
+            }
+        }
 
         public string Name { get; set; }
 
@@ -55,7 +89,6 @@ namespace LR_8
 
             if (Quantity == 0)
             {
-                //Console.WriteLine("There are no drones to be need for battery charge...");
                 throw new Exception("There are no drones to be need for battery charge...");
             }
             else if (RestRecently)
@@ -72,15 +105,11 @@ namespace LR_8
                     {
                         Quantity = 0;
                         Console.WriteLine("All of their batteries are low.\nThey fell to the ground...\n");
-
-                        //reduceQuantity?.Invoke(this, Quantity);
                     }
                     else
                     {
                         Quantity -= a;
                         Console.WriteLine($"There are {a} with low battery.\nRemains {Quantity - a} who can continue.");
-
-                        //reduceQuantity?.Invoke(this, a);
                     }
                 }
                 else
@@ -108,7 +137,6 @@ namespace LR_8
                 {
                     Console.WriteLine($"The remaining {Quantity} drones just have made beep-bop and then turned off...\n");
 
-                    //reduceQuantity?.Invoke(this, Quantity);
                     Quantity = 0;
                 }
                 else if (Quantity == 1)
@@ -118,7 +146,6 @@ namespace LR_8
                     Console.WriteLine("Last drone just made its last beep-bop and turned off...\n");
 
                     Quantity = 0;
-                    //reduceQuantity?.Invoke(this, 1);
 
                     Thread.Sleep(3000);
                 }
@@ -127,7 +154,6 @@ namespace LR_8
                     Console.WriteLine($"{a} drones from your pack just disappeared. Scanners can't detect them...\nRemain {Quantity - a} drones.\n");
 
                     Quantity -= a;
-                    //reduceQuantity?.Invoke(this, a);
                     Thread.Sleep(3000);
                 }
             }
@@ -138,12 +164,11 @@ namespace LR_8
 
             if (Quantity == 0)
             {
-                //Console.WriteLine("There is no drones for battery charge...\n");
                 throw new Exception("There is no drones for battery charge...\n");
             }
             else if (RestRecently)
             {
-                Console.WriteLine("All of batteries are full.");//("Everybody feels fine");
+                Console.WriteLine("All of batteries are full.");
                 return;
             }
 
@@ -156,7 +181,6 @@ namespace LR_8
 
         public void EatSomeone() //battery charge?
         {
-            //Console.WriteLine("Drones can't eat each other... Drones can't even eat...\n");
             throw new Exception("Drones can't eat each other... Drones can't even eat...\n");
         }
 
