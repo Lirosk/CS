@@ -11,11 +11,11 @@ namespace LR_8
             {
                 Random r = new Random();
 
-                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new CarryAbles(30));
+                Pack<Smth> pack = new Pack<Smth>(new Smth("unknown"), new Carryables(30));
                 {
                     pack.Contingent.ReducedQuantityEvent += delegate (object sender, int n)
                     { 
-                        Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
+                        Console.Write("From anonymous delegate event-handler: \"Quantity has reduced (by {0})!\"\n", n);
                     };
                 }
 
@@ -138,18 +138,18 @@ namespace LR_8
                                 pack.Contingent.ReducedQuantityEvent -= null;
                                 pack.Contingent.ReducedQuantityEvent += (Drones, n) =>
                                 {
-                                    Console.Write($"From lambda event-handler: \"Quantity has reduced (by {n})!\"\n");
+                                    Console.Write("From lambda event-handler: \"Quantity has reduced (by {0})!\"\n", n);
                                 };
                             }
                         }
                         else //if (pack.Contingent.Name == "drones")
                         {
-                            pack.Contingent = new CarryAbles((ushort)(pack.Contingent.Quantity * 2));
+                            pack.Contingent = new Carryables((ushort)(pack.Contingent.Quantity * 2));
                             {
                                 pack.Contingent.ReducedQuantityEvent -= null;
                                 pack.Contingent.ReducedQuantityEvent += delegate (object sender, int n)
                                 { 
-                                    Console.Write($"From anonymous delegate event-handler: \"Quantity has reduced (by {n})!\"\n");
+                                    Console.Write("From anonymous delegate event-handler: \"Quantity has reduced (by {0})!\"\n", n);
                                 };                               
                             }
                         }
@@ -253,11 +253,9 @@ namespace LR_8
                             default:
                                 {
                                     Console.WriteLine("Unknown decision...\n");
-                                    //pack.Contingent.RandomSpirits();
                                     break;
                                 }
                         }
-
                     }
                     catch (Exception ex)
                     {
